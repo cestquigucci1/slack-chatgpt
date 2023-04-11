@@ -1,7 +1,7 @@
-# Deno Hello World Slack App
+# Deno ChatGPT bot for Slack new platform
 
 This sample app demonstrates how to use a function, workflow, and trigger to
-send a greeting to channel.
+send queries to ChatGPT and post the AI response to a specific channel.
 
 **Guide Outline**:
 
@@ -31,18 +31,6 @@ To use this sample, you first need to install and configure the Slack CLI.
 Step-by-step instructions can be found in our
 [Quickstart Guide](https://api.slack.com/future/quickstart).
 
-### Clone the Sample
-
-Start by cloning this repository:
-
-```zsh
-# Clone this project onto your machine
-$ slack create my-app -t slack-samples/deno-hello-world
-
-# Change into this project directory
-$ cd my-app
-```
-
 ## Create a Link Trigger
 
 [Triggers](https://api.slack.com/future/triggers) are what cause workflows to
@@ -65,7 +53,7 @@ To create a link trigger for the workflow in this sample, run the following
 command:
 
 ```zsh
-$ slack trigger create --trigger-def triggers/greeting_trigger.ts
+$ slack trigger create --trigger-def triggers/appmention_trigger.ts
 ```
 
 After selecting a Workspace, the output provided will include the link trigger
@@ -75,6 +63,16 @@ a bookmark in a channel of the Workspace you selected.
 **Note: this link won't run the workflow until the app is either running locally
 or deployed!** Read on to learn how to run your app locally and eventually
 deploy it to Slack hosting.
+
+## .env
+
+To test this app locally, you need to define below properties in .env file.
+
+```zsh
+BOT_USER_ID=ChatGPT
+OPENAI_API_KEY=XXXX
+OPENAI_ORG_NAME=XXXX
+```
 
 ## Running Your Project Locally
 
@@ -95,18 +93,6 @@ Once running, click the
 
 To stop running locally, press `<CTRL> + C` to end the process.
 
-## Testing
-
-For an example of how to test a function, see
-`functions/greeting_function_test.ts`. Test filenames should be suffixed with
-`_test`.
-
-Run all tests with `deno test`:
-
-```zsh
-$ deno test
-```
-
 ## Deploying Your App
 
 Once you're done with development, you can deploy the production version of your
@@ -119,6 +105,13 @@ $ slack deploy
 After deploying, [create a new link trigger](#create-a-link-trigger) for the
 production version of your app (not appended with `(local)`). Once the trigger
 is invoked, the workflow should run just as it did in when developing locally.
+
+Just in case, we cannot use .env file in the production.
+Please deploy environmental values via slack env add command.
+
+```zsh
+$ slack env add
+```
 
 ### Viewing Activity Logs
 
